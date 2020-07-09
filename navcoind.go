@@ -97,8 +97,6 @@ func (b *Navcoind) GetAddressBalance(address string) (addresses *AddressBalance,
 
 	r, err := b.client.call("getaddressbalance", []string{request})
 	if err = handleError(err, &r); err != nil {
-		log.Printf(request)
-		log.Printf(err.Error())
 		return
 	}
 	err = json.Unmarshal(r.Result, &addresses)
@@ -118,15 +116,22 @@ func (b *Navcoind) GetAddressHistory(start, end *uint64, addresses ...string) (h
 	}
 	request, err := json.Marshal(req)
 	if err != nil {
+		log.Printf(string(request))
+		log.Printf(err.Error())
 		return
 	}
 
 	r, err := b.client.call("getaddresshistory", []string{string(request)})
 	if err = handleError(err, &r); err != nil {
+		log.Printf(string(request))
+		log.Printf(err.Error())
 		return
 	}
 	err = json.Unmarshal(r.Result, &addresses)
-
+	if err != nil {
+		log.Printf(string(request))
+		log.Printf(err.Error())
+	}
 	return
 }
 

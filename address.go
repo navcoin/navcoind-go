@@ -12,7 +12,7 @@ type AddressHistoryRequest struct {
 }
 
 type AddressHistory struct {
-	Block   string `json:"block"`
+	Block   uint64 `json:"block"`
 	TxIndex uint   `json:"txindex"`
 	Time    int64  `json:"time"`
 	TxId    string `json:"txid"`

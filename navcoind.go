@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 )
 
@@ -114,22 +113,13 @@ func (b *Navcoind) GetAddressHistory(start, end *uint64, addresses ...string) (h
 		req.Start = *start
 		req.End = *end
 	}
-	request, err := json.Marshal(req)
-	if err != nil {
-		return
-	}
 
 	r, err := b.client.call("getaddresshistory", []AddressHistoryRequest{*req})
 	if err = handleError(err, &r); err != nil {
-		log.Printf(string(request))
-		log.Printf(err.Error())
 		return
 	}
 	err = json.Unmarshal(r.Result, &history)
-	if err != nil {
-		log.Printf(string(request))
-		log.Printf(err.Error())
-	}
+
 	return
 }
 

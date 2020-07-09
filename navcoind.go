@@ -119,7 +119,7 @@ func (b *Navcoind) GetAddressHistory(start, end *uint64, addresses ...string) (h
 		return
 	}
 
-	r, err := b.client.call("getaddresshistory", []string{fmt.Sprintf("{\"addresses\": [\"%s\"]}", addresses[0])})
+	r, err := b.client.call("getaddresshistory", []AddressHistoryRequest{*req})
 	if err = handleError(err, &r); err != nil {
 		log.Printf(string(request))
 		log.Printf(err.Error())

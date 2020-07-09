@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 )
 
@@ -96,6 +97,8 @@ func (b *Navcoind) GetAddressBalance(address string) (addresses *AddressBalance,
 
 	r, err := b.client.call("getaddressbalance", []string{request})
 	if err = handleError(err, &r); err != nil {
+		log.Printf(request)
+		log.Printf(err.Error())
 		return
 	}
 	err = json.Unmarshal(r.Result, &addresses)

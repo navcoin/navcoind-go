@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 )
@@ -104,6 +105,8 @@ func (c *rpcClient) call(method string, params interface{}) (rr rpcResponse, err
 	payloadBuffer := &bytes.Buffer{}
 	jsonEncoder := json.NewEncoder(payloadBuffer)
 	err = jsonEncoder.Encode(rpcR)
+	log.Println(payloadBuffer.String())
+
 	if err != nil {
 		return
 	}

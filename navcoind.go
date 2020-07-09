@@ -122,6 +122,9 @@ func (b *Navcoind) GetAddressHistory(start, end *uint64, addresses ...string) (h
 	}
 
 	r, err := b.client.call("getaddresshistory", []string{string(request)})
+	if err != nil {
+		log.Printf(err.Error())
+	}
 	if err = handleError(err, &r); err != nil {
 		log.Printf(string(request))
 		log.Printf(err.Error())

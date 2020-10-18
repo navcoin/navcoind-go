@@ -103,6 +103,26 @@ func (b *Navcoind) GetAddressBalance(address string) (addresses *AddressBalance,
 	return
 }
 
+func (b *Navcoind) GetAddressHistory(start, end *uint64, addresses ...string) (history []*AddressHistory, err error) {
+	req := new(AddressHistoryRequest)
+
+	for _, a := range addresses {
+		req.Addresses = append(req.Addresses, a)
+	}
+	if start != nil && end != nil {
+		req.Start = *start
+		req.End = *end
+	}
+
+	r, err := b.client.call("getaddresshistory", []AddressHistoryRequest{*req})
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &history)
+
+	return
+}
+
 // GetBalance return the balance of the server or of a specific account
 //If [account] is "", returns the server's total available balance.
 //If [account] is specified, returns the balance in the account

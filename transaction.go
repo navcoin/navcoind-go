@@ -30,6 +30,13 @@ type Vout struct {
 	ValueSat     uint64       `json:"valuesat"`
 	N            int          `json:"n"`
 	ScriptPubKey ScriptPubKey `json:"scriptPubKey"`
+	SpendingKey  string       `json:"spendingKey,omitempty"`
+	OutputKey    string       `json:"outputKey,omitempty"`
+	EphemeralKey string       `json:"ephemeralKey,omitempty"`
+	RangeProof   bool         `json:"rangeProof,omitempty"`
+	SpentTxId    bool         `json:"spentTxId,omitempty"`
+	SpentIndex   int          `json:"spentIndex,omitempty"`
+	SpentHeight  int          `json:"spentHeight,omitempty"`
 }
 
 type RawTransaction struct {
@@ -41,6 +48,8 @@ type RawTransaction struct {
 	Version         uint32 `json:"version"`
 	LockTime        uint32 `json:"locktime"`
 	Strdzeel        string `json:"strdzeel,omitempty"`
+	VchTxSig        string `json:"vchTxSig,omitempty"`
+	VchBalanceSig   string `json:"vchBalanceSig,omitempty"`
 	AnonDestination string `json:"anon-destination,omitempty"`
 	Vin             []Vin  `json:"vin"`
 	Vout            []Vout `json:"vout"`

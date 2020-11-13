@@ -34,7 +34,7 @@ type Vout struct {
 	OutputKey    string       `json:"outputKey,omitempty"`
 	EphemeralKey string       `json:"ephemeralKey,omitempty"`
 	RangeProof   bool         `json:"rangeProof,omitempty"`
-	SpentTxId    bool         `json:"spentTxId,omitempty"`
+	SpentTxId    string       `json:"spentTxId,omitempty"`
 	SpentIndex   int          `json:"spentIndex,omitempty"`
 	SpentHeight  int          `json:"spentHeight,omitempty"`
 }

@@ -843,25 +843,28 @@ func (b *Navcoind) GetConsensusParameters(extended bool) (consensusParameters []
 }
 
 // GetConsultation returns information about the consultation with the given hash.
-func (b *Navcoind) GetConsultation(hash string) (consultation Consultation, err error) {
+func (b *Navcoind) GetConsultation(hash string) (Consultation, error) {
+	var consultation Consultation
+
 	r, err := b.client.call("getconsultation", []string{hash})
 	if err = handleError(err, &r); err != nil {
-		return
+		return consultation, err
 	}
 	err = json.Unmarshal(r.Result, &consultation)
 
 	if consultation.Version>>1&1 == 1 {
 		var answers []map[string]int
 		if err := json.Unmarshal(consultation.RawAnswers, &answers); err != nil {
-			return
+			return consultation, err
 		}
 		consultation.RangeAnswers = answers[0]
 	} else {
 		var answers []*Answer
 		if err := json.Unmarshal(consultation.RawAnswers, &answers); err != nil {
-			return
+			return consultation, err
 		}
 		consultation.Answers = answers
 	}
-	return
+
+	return consultation, err
 }

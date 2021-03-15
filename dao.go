@@ -1,5 +1,7 @@
 package navcoind
 
+import "encoding/json"
+
 type Proposal struct {
 	Version             uint32           `json:"version"`
 	Hash                string           `json:"hash"`
@@ -63,21 +65,23 @@ type ConsensusParameter struct {
 }
 
 type Consultation struct {
-	Version                  uint32         `json:"version"`
-	Hash                     string         `json:"hash"`
-	BlockHash                string         `json:"blockhash"`
-	Question                 string         `json:"question"`
-	Support                  int            `json:"support"`
-	Abstain                  int            `json:"abstain"`
-	Answers                  []*Answer      `json:"answers"`
-	Min                      int            `json:"min"`
-	Max                      int            `json:"max"`
-	VotingCyclesFromCreation int            `json:"votingCyclesFromCreation"`
-	VotingCycleForState      Cycle          `json:"votingCycleForState"`
-	Status                   string         `json:"status"`
-	State                    int            `json:"state"`
-	StateChangedOnBlock      string         `json:"stateChangedOnBlock"`
-	MapState                 map[int]string `json:"mapState"`
+	Version                  uint32          `json:"version"`
+	Hash                     string          `json:"hash"`
+	BlockHash                string          `json:"blockhash"`
+	Question                 string          `json:"question"`
+	Support                  int             `json:"support"`
+	Abstain                  int             `json:"abstain"`
+	RawAnswers               json.RawMessage `json:"answers"`
+	Answers                  []*Answer       `json:"-"`
+	RangeAnswers             map[string]int  `json:"-"`
+	Min                      int             `json:"min"`
+	Max                      int             `json:"max"`
+	VotingCyclesFromCreation int             `json:"votingCyclesFromCreation"`
+	VotingCycleForState      Cycle           `json:"votingCycleForState"`
+	Status                   string          `json:"status"`
+	State                    int             `json:"state"`
+	StateChangedOnBlock      string          `json:"stateChangedOnBlock"`
+	MapState                 map[int]string  `json:"mapState"`
 }
 
 type Cycle struct {

@@ -103,6 +103,26 @@ func (b *Navcoind) GetAddressBalance(address string) (addresses *AddressBalance,
 	return
 }
 
+func (b *Navcoind) GetAddressTxids(start, end *uint64, addresses ...string) (txids AddressTxids, err error) {
+	req := new(AddressTxidsRequest)
+
+	for _, a := range addresses {
+		req.Addresses = append(req.Addresses, a)
+	}
+	if start != nil && end != nil {
+		req.Start = *start
+		req.End = *end
+	}
+
+	r, err := b.client.call("getaddresstxids", []AddressTxidsRequest{*req})
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &txids)
+
+	return
+}
+
 func (b *Navcoind) GetAddressHistory(start, end *uint64, addresses ...string) (history []*AddressHistory, err error) {
 	req := new(AddressHistoryRequest)
 

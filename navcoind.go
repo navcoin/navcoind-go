@@ -21,14 +21,14 @@ type Navcoind struct {
 }
 
 // New return a new navcoind
-func New(host string, port int, user, passwd string, useSSL bool, timeoutParam ...int) (*Navcoind, error) {
+func New(host string, port int, user, passwd string, useSSL, debug bool, timeoutParam ...int) (*Navcoind, error) {
 	var timeout int = RPCCLIENT_TIMEOUT
 	// If the timeout is specified in timeoutParam, allow it.
 	if len(timeoutParam) != 0 {
 		timeout = timeoutParam[0]
 	}
 
-	rpcClient, err := newClient(host, port, user, passwd, useSSL, timeout)
+	rpcClient, err := newClient(host, port, user, passwd, useSSL, timeout, debug)
 	if err != nil {
 		return nil, err
 	}

@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 )
@@ -117,7 +117,9 @@ func (c *rpcClient) call(method string, params interface{}) (rr rpcResponse, err
 	}
 
 	if c.debug {
-		log.Printf("RPC Request: %s", payloadBuffer.String())
+		zap.L().With(
+			zap.String("request", payloadBuffer.String()),
+		).Debug("Navcoind: RPC Request")
 	}
 
 	req, err := http.NewRequest("POST", c.serverAddr, payloadBuffer)
@@ -145,7 +147,9 @@ func (c *rpcClient) call(method string, params interface{}) (rr rpcResponse, err
 	}
 
 	if c.debug {
-		log.Printf("RPC Response: %s", string(data))
+		zap.L().With(
+			zap.String("response", string(data)),
+		).Debug("Navcoind: RPC Response")
 	}
 
 	err = json.Unmarshal(data, &rr)

@@ -136,7 +136,6 @@ func (c *rpcClient) call(method string, params interface{}) (rr rpcResponse, err
 
 	resp, err := c.doTimeoutRequest(time.NewTimer(time.Duration(c.timeout)*time.Second), req)
 	if err != nil {
-		err = errors.New("Failed to complete request")
 		return
 	}
 	defer resp.Body.Close()

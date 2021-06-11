@@ -21,14 +21,14 @@ type Navcoind struct {
 }
 
 // New return a new navcoind
-func New(host string, port int, user, passwd string, useSSL bool, timeoutParam ...int) (*Navcoind, error) {
+func New(host string, port int, user, passwd string, useSSL, debug bool, timeoutParam ...int) (*Navcoind, error) {
 	var timeout int = RPCCLIENT_TIMEOUT
 	// If the timeout is specified in timeoutParam, allow it.
 	if len(timeoutParam) != 0 {
 		timeout = timeoutParam[0]
 	}
 
-	rpcClient, err := newClient(host, port, user, passwd, useSSL, timeout)
+	rpcClient, err := newClient(host, port, user, passwd, useSSL, timeout, debug)
 	if err != nil {
 		return nil, err
 	}
@@ -99,6 +99,26 @@ func (b *Navcoind) GetAddressBalance(address string) (addresses *AddressBalance,
 		return
 	}
 	err = json.Unmarshal(r.Result, &addresses)
+
+	return
+}
+
+func (b *Navcoind) GetAddressTxids(start, end *uint64, addresses ...string) (txids AddressTxids, err error) {
+	req := new(AddressTxidsRequest)
+
+	for _, a := range addresses {
+		req.Addresses = append(req.Addresses, a)
+	}
+	if start != nil && end != nil {
+		req.Start = *start
+		req.End = *end
+	}
+
+	r, err := b.client.call("getaddresstxids", []AddressTxidsRequest{*req})
+	if err = handleError(err, &r); err != nil {
+		return
+	}
+	err = json.Unmarshal(r.Result, &txids)
 
 	return
 }

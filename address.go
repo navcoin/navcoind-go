@@ -5,6 +5,14 @@ type AddressBalance struct {
 	Received uint64 `json:"received"`
 }
 
+type AddressTxidsRequest struct {
+	Addresses []string `json:"addresses"`
+	Start     uint64   `json:"start"`
+	End       uint64   `json:"end"`
+}
+
+type AddressTxids []string
+
 type AddressHistoryRequest struct {
 	Addresses []string `json:"addresses"`
 	Start     uint64   `json:"start"`

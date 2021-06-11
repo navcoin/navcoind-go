@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -18,6 +19,7 @@ type rpcClient struct {
 	passwd     string
 	httpClient *http.Client
 	timeout    int
+	debug      bool
 }
 
 // rpcRequest represent a RCP request
@@ -56,7 +58,7 @@ type rpcResponse struct {
 	Err    *RPCError       `json:"error"`
 }
 
-func newClient(host string, port int, user, passwd string, useSSL bool, timeout int) (c *rpcClient, err error) {
+func newClient(host string, port int, user, passwd string, useSSL bool, timeout int, debug bool) (c *rpcClient, err error) {
 	if len(host) == 0 {
 		err = errors.New("Bad call missing argument host")
 		return
@@ -73,7 +75,14 @@ func newClient(host string, port int, user, passwd string, useSSL bool, timeout 
 		serverAddr = "http://"
 		httpClient = &http.Client{}
 	}
-	c = &rpcClient{serverAddr: fmt.Sprintf("%s%s:%d", serverAddr, host, port), user: user, passwd: passwd, httpClient: httpClient, timeout: timeout}
+	c = &rpcClient{
+		fmt.Sprintf("%s%s:%d", serverAddr, host, port),
+		user,
+		passwd,
+		httpClient,
+		timeout,
+		debug,
+	}
 	return
 }
 
@@ -99,15 +108,20 @@ func (c *rpcClient) doTimeoutRequest(timer *time.Timer, req *http.Request) (*htt
 
 // call prepare & exec the request
 func (c *rpcClient) call(method string, params interface{}) (rr rpcResponse, err error) {
-	connectTimer := time.NewTimer(time.Duration(c.timeout) * time.Second)
 	rpcR := rpcRequest{method, params, time.Now().UnixNano(), "1.0"}
 	payloadBuffer := &bytes.Buffer{}
 	jsonEncoder := json.NewEncoder(payloadBuffer)
 	err = jsonEncoder.Encode(rpcR)
-
 	if err != nil {
 		return
 	}
+
+	if c.debug {
+		zap.L().With(
+			zap.String("request", payloadBuffer.String()),
+		).Debug("Navcoind: RPC Request")
+	}
+
 	req, err := http.NewRequest("POST", c.serverAddr, payloadBuffer)
 	if err != nil {
 		return
@@ -120,9 +134,8 @@ func (c *rpcClient) call(method string, params interface{}) (rr rpcResponse, err
 		req.SetBasicAuth(c.user, c.passwd)
 	}
 
-	resp, err := c.doTimeoutRequest(connectTimer, req)
+	resp, err := c.doTimeoutRequest(time.NewTimer(time.Duration(c.timeout)*time.Second), req)
 	if err != nil {
-		err = errors.New("Failed to complete request")
 		return
 	}
 	defer resp.Body.Close()
@@ -130,6 +143,12 @@ func (c *rpcClient) call(method string, params interface{}) (rr rpcResponse, err
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return
+	}
+
+	if c.debug {
+		zap.L().With(
+			zap.String("response", string(data)),
+		).Debug("Navcoind: RPC Response")
 	}
 
 	err = json.Unmarshal(data, &rr)

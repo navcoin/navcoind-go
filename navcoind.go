@@ -784,13 +784,21 @@ func (b *Navcoind) VerifyMessage(address, sign, message string) (success bool, e
 
 // ValidateAddressResponse represents a response to "validateaddress" call
 type ValidateAddressResponse struct {
-	IsValid      bool   `json:"isvalid"`
-	Address      string `json:"address"`
-	IsMine       bool   `json:"ismine"`
-	IsScript     bool   `json:"isscript"`
-	PubKey       string `json:"pubkey"`
-	IsCompressed bool   `json:"iscompressed"`
-	Account      string `json:"account"`
+	IsValid         bool   `json:"isvalid"`
+	Address         string `json:"address"`
+	ScriptPubKey    string `json:"scriptPubKey"`
+	StakingAddress  string `json:"stakingaddress"`
+	SpendingAddress string `json:"spendingaddress"`
+	VotingAddress   string `json:"votingaddress"`
+	IsMine          bool   `json:"ismine"`
+	IsStakable      bool   `json:"isstakable"`
+	IsWatchOnly     bool   `json:"iswatchonly"`
+	IsScript        bool   `json:"isscript"`
+	IsColdStaking   bool   `json:"iscoldstaking"`
+	PubKey          string `json:"pubkey"`
+	IsCompressed    bool   `json:"iscompressed"`
+	HdKeyPath       string `json:"hdkeypath"`
+	HdMasterKeyId   string `json:"hdmasterkeyid"`
 }
 
 // ValidateAddress return information about <bitcoinaddress>.

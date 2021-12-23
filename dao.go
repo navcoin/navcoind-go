@@ -91,7 +91,7 @@ type Cycle struct {
 
 type Answer struct {
 	Version             uint32         `json:"version"`
-	Answer              string         `json:"answer"`
+	Answer              interface{}    `json:"answer"`
 	Support             int            `json:"support"`
 	Votes               int            `json:"votes"`
 	Status              string         `json:"status"`

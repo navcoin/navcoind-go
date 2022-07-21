@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/NavExplorer/navcoind-go"
+	"github.com/navcoin/navcoind-go"
 	"log"
 )
 

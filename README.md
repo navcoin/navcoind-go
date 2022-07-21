@@ -6,7 +6,7 @@ A Golang client library wrapping the navcoind JSON RPC API
 
 Installation
 -----
-	$ go get https://github.com/NavExplorer/navcoind-go
+	$ go get https://github.com/navcoin/navcoind-go
 
 
 Usage
@@ -15,7 +15,7 @@ Usage
 	package main
 
 	import (
-		"github.com/NavExplorer/navcoind-go"
+		"github.com/navcoin/navcoind-go"
 		"log"
 	)
 
@@ -55,13 +55,13 @@ Documentation
 -----
 Click on the button below to access the full documentation:
 
-[![GoDoc](https://godoc.org/github.com/NavExplorer/navcoind-go?status.png)](https://godoc.org/github.com/NavExplorer/navcoind-go)	
+[![GoDoc](https://godoc.org/github.com/navcoin/navcoind-go?status.png)](https://godoc.org/github.com/navcoin/navcoind-go)	
 
 
 
 Unit tests
 ----
-[![Build Status](https://travis-ci.org/NavExplorer/navcoind-go.svg)](https://travis-ci.org/NavExplorer/navcoind-go)
+[![Build Status](https://travis-ci.org/navcoin/navcoind-go.svg)](https://travis-ci.org/navcoin/navcoind-go)
 
 More than 100 unit tests are made.
 

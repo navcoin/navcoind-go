@@ -885,21 +885,6 @@ func (b *Navcoind) GetConsultation(hash string) (Consultation, error) {
 			return consultation, err
 		}
 
-		for k, v := range answers {
-			var strAnswer string
-			if err = json.Unmarshal(v.RawAnswer, &strAnswer); err != nil {
-				return consultation, err
-			}
-			if (strAnswer == "") {
-				var arrAnswer []string
-				if err = json.Unmarshal(v.RawAnswer, &arrAnswer); err != nil {
-					return consultation, err
-				}
-				strAnswer = strings.Join(arrAnswer[:], ",")
-			}
-			v.Answer = strAnswer
-			answers[k] = v
-		}
 		consultation.Answers = answers
 	}
 

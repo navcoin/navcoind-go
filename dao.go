@@ -90,16 +90,15 @@ type Cycle struct {
 }
 
 type Answer struct {
-	Version             uint32          `json:"version"`
-	RawAnswer           json.RawMessage `json:"answer"`
-	Answer              string          `json:"-"`
-	Support             int             `json:"support"`
-	Votes               int             `json:"votes"`
-	Status              string          `json:"status"`
-	State               int             `json:"state"`
-	StateChangedOnBlock string          `json:"stateChangedOnBlock"`
-	TxBlockHash         string          `json:"txblockhash"`
-	Parent              string          `json:"parent"`
-	Hash                string          `json:"hash"`
-	MapState            map[int]string  `json:"mapState"`
+	Version             uint32         `json:"version"`
+	Answer              any            `json:"answer"`
+	Support             int            `json:"support"`
+	Votes               int            `json:"votes"`
+	Status              string         `json:"status"`
+	State               int            `json:"state"`
+	StateChangedOnBlock string         `json:"stateChangedOnBlock"`
+	TxBlockHash         string         `json:"txblockhash"`
+	Parent              string         `json:"parent"`
+	Hash                string         `json:"hash"`
+	MapState            map[int]string `json:"mapState"`
 }

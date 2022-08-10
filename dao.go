@@ -17,6 +17,7 @@ type Proposal struct {
 	VotesYes            uint             `json:"votesYes"`
 	VotesAbs            uint             `json:"votesAbs"`
 	VotesNo             uint             `json:"votesNo"`
+	VotesExcluded       uint             `json:"excludedVotes"`
 	VotingCycle         uint             `json:"votingCycle"`
 	Status              string           `json:"status"`
 	State               uint             `json:"state"`
@@ -34,6 +35,7 @@ type PaymentRequest struct {
 	VotesYes            uint   `json:"votesYes"`
 	VotesAbs            uint   `json:"votesAbs"`
 	VotesNo             uint   `json:"votesNo"`
+	VotesExcluded       uint   `json:"excludedVotes"`
 	VotingCycle         uint   `json:"votingCycle"`
 	Status              string `json:"status"`
 	State               uint   `json:"state"`

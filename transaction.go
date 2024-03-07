@@ -6,14 +6,16 @@ type ScriptSig struct {
 }
 
 type Vin struct {
-	Coinbase  string    `json:"coinbase,omitempty"`
-	Txid      string    `json:"txid,omitempty"`
-	Vout      int       `json:"vout,omitempty"`
-	ScriptSig ScriptSig `json:"scriptSig,omitempty"`
-	Value     float64   `json:"value,omitempty"`
-	ValueSat  uint64    `json:"valuesat,omitempty"`
-	Address   string    `json:"address,omitempty"`
-	Sequence  uint32    `json:"sequence"`
+	Coinbase   string    `json:"coinbase,omitempty"`
+	Txid       string    `json:"txid,omitempty"`
+	TokenId    string    `json:"tokenId,omitempty"`
+	TokenNftId *int      `json:"tokenNftId,omitempty"`
+	Vout       int       `json:"vout,omitempty"`
+	ScriptSig  ScriptSig `json:"scriptSig,omitempty"`
+	Value      float64   `json:"value,omitempty"`
+	ValueSat   uint64    `json:"valuesat,omitempty"`
+	Address    string    `json:"address,omitempty"`
+	Sequence   uint32    `json:"sequence"`
 }
 
 type ScriptPubKey struct {
